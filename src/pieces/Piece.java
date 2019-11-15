@@ -12,6 +12,7 @@ public abstract class Piece {
     private Position position; // the current position of the piece.
     private Player player; // the player to whom the piece belongs to.
     private boolean captured = false; // if the piece is captured
+    private String identifier; // a String used to identify the Piece instance.
 
     /**
      * Creates a game piece at the given position for the given player.
@@ -31,11 +32,26 @@ public abstract class Piece {
     }
 
     /**
+     * Changes the piece's position.
+     * @param newPosition the piece's new position.
+     */
+    public void setPosition(Position newPosition) {
+        this.position = newPosition;
+    }
+
+    /**
      * Returns if the piece has been captured.
      * @return true if the piece is captured, false otherwise.
      */
     public boolean isCaptured() {
         return captured;
+    }
+
+    /**
+     * Captures the piece.
+     */
+    public void getCaptured() {
+        captured = true;
     }
 
     /**
@@ -45,11 +61,18 @@ public abstract class Piece {
     public abstract Type getType();
 
     /**
-     * Moves the piece to the given position if the move is allowed.
+     * Moves the piece to the given position if the path to the position is a
+     * valid path.
+     * Otherwise, prints "Move not allowed."
      * @param newPosition the new position.
+     * @require newPosition must be on the board.
      */
     public abstract void move(Position newPosition);
 
+
+
 //    public void capture() { };
-//    public void getCaptured() { };
+    // could do capture(Piece piece) which calls a method move(Piece piece) so
+    // there would be overloaded move methods. this covers pawn problem.
+    // but player should probably call capture()
 }

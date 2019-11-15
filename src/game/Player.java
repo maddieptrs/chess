@@ -1,5 +1,9 @@
 package game;
 
+import pieces.Pawn;
+import pieces.Piece;
+import pieces.Rook;
+
 /**
  * Player
  *
@@ -39,5 +43,32 @@ public class Player {
         return yourTurn;
     }
 
+    /**
+     * Promotes one of the player's pawns to another piece.
+     * @param pawn the pawn to be promoted.
+     * @param piece the piece to be promoted to.
+     * @require piece must be a subclass of Piece && !(piece instanceOf Pawn)
+     *          && !(piece instanceOf King)
+     */
+    public <T extends Piece> void promotePawn(Pawn pawn, T piece) {
+        // do i need to use generics?
+        // how can i instantiate a new piece without knowing its type?
+    }
+
+    /**
+     * Allows the player to castle. That is, if the King and the given Rook have
+     * not yet moved in the game, and the King is not in check, and there are
+     * no pieces between the King and Rook, then the King and Rook can swap
+     * places.
+     * @param rook the rook to be castled with.
+     */
+//    public void castle(Rook rook) {
+//        if (moves == 0 && rook.getMoves() == 0) {
+//
+//        }
+//    }
+
 //    public void checkmate() { };
+
+    // public void capture() { };
 }
