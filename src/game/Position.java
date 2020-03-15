@@ -16,7 +16,7 @@ public class Position {
      * @param x x coordinate.
      * @param y y coordinate.
      */
-    Position(int x, int y) {
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }

@@ -34,7 +34,7 @@ public class King extends Piece {
     /*
     Helper method to determine if the path to the given position will be valid.
      */
-    private boolean isPathValid(Position newPosition) {
+    public boolean isPathValid(Position newPosition) {
         return getPosition().distance(newPosition) == 1;
     }
 
@@ -55,6 +55,8 @@ public class King extends Piece {
             System.out.println("Move not allowed.");
         }
     }
+
+    // do an overloaded method isPathValid(Rook rook) to castle?
 
     /**
      * Returns the number of times the King has moved.

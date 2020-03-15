@@ -1,6 +1,10 @@
 package game;
 
+import pieces.Pawn;
 import pieces.Piece;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
     private Board board;
@@ -17,6 +21,7 @@ public class Game {
 
     public Game(String whiteName, String blackName) {
         board = new Board();
+
         whitePlayer = new Player(whiteName, Colour.WHITE);
         blackPlayer = new Player(blackName, Colour.BLACK);
     }

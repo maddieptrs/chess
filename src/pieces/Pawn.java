@@ -1,5 +1,6 @@
 package pieces;
 
+import game.Colour;
 import game.Player;
 import game.Position;
 
@@ -11,15 +12,17 @@ import game.Position;
 public class Pawn extends Piece {
 
     private Type type = Type.PAWN; // Piece type.
+    private String id; // identifies this Pawn.
 
     /**
      * Constructs a Pawn at the specified position for the specified player.
      *
      * @param position position of the Pawn.
-     * @param player   player the Pawn belongs to.
+     * @param colour   colour of the Pawn.
      */
-    public Pawn(Position position, Player player) {
-        super(position, player);
+    public Pawn(Position position, Colour colour, String id) {
+        super(position, colour);
+        this.id = id;
     }
 
     /**
@@ -41,34 +44,38 @@ public class Pawn extends Piece {
         int changeInX = Math.abs(getPosition().getX() - newPosition.getX());
         int changeInY = getPosition().getY() - newPosition.getY();
         if (this.getMoves() == 0) {
-            return changeInX == 0 && changeInY <= 2;
             // Pawn can move two spots forward on first move.
+            return changeInX == 0 && changeInY <= 2;
         }
-        // changeInY must be positive
+        // Pawn can only move forwards.
         return changeInX == 1 && changeInY == 1;
 
         // capturing must be included in game class so we can access the
         // chess board.
 
-        // move is made in PLayer.
+        // move is made in game.
     }
 
     /**
-     * Moves the Pawn to the given position if the path to the position is a
-     * valid path. If it is the Pawn's first move, it can move two squares
-     * forward. If the Pawn is capturing another piece, it may move one square
-     * diagonally. Otherwise, the Pawn can move forwards by one square.
-     * Otherwise, prints "Move not allowed."
-     *
-     * @param newPosition the new position.
-     * @require newPosition must be on the board.
+     * Creates an array of positions that the Pawn will cross as it moves.
+     * This method is only called if isPathValid(end) = true.
+     * We can treat this as the second step in determining if a move is allowed.
+     * If the Pawn must jump over another piece - that is, there is an existing
+     * piece in its path - then the move is not valid.
+     * @param end the Pawn's final position.
+     * @require Pawn is moving forward.
      */
-    public void move(Position newPosition) {
-        if (isPathValid(newPosition)) {
-            setPosition(newPosition);
-        } else {
-            System.out.println("Move not allowed.");
+    public Position[] createPath(Position end) {
+        Position[] path = new Position[1];
+        if (end.getX() - getPosition().getX() == 0) { // moves forward by 2 squares
+            path = new Position[2];
+            path[0] = new Position(getPosition().getX(),
+                    getPosition().getY() + 1);
+            path[1] = end;
+            return path;
         }
+        path[0] = end; // moves one square diagonally
+        return path;
     }
 
 }

@@ -1,5 +1,6 @@
 package pieces;
 
+import game.Colour;
 import game.Player;
 import game.Position;
 
@@ -10,8 +11,8 @@ import game.Position;
  */
 public abstract class Piece {
     private Position position; // the current position of the piece.
-    private Player player; // the player to whom the piece belongs to.
-    private boolean captured = false; // if the piece is captured
+    private Colour colour; // the colour of the piece (Black/White).
+    private boolean captured = false; // if the piece is captured.
     private int moves = 0; // the number of moves the Piece has made.
 
 
@@ -19,9 +20,9 @@ public abstract class Piece {
      * Creates a game piece at the given position for the given player.
      * At construction, the pieces have not been captured.
      */
-    public Piece(Position position, Player player) {
+    public Piece(Position position, Colour colour) {
         this.position = position;
-        this.player = player;
+        this.colour = colour;
     }
 
     /**
@@ -84,10 +85,14 @@ public abstract class Piece {
      */
     public abstract boolean isPathValid(Position newPosition);
 
+    /**
+     * Creates an array of positions that the Piece will cross as it moves.
+     * This method is only called if isPathValid(end) = true.
+     * We can treat this as the second step in determining if a move is allowed.
+     * If the Piece must jump over another piece - that is, there is an existing
+     * piece in its path - then the move is not valid.
+     * @param end the Piece's final position.
+     */
+    public abstract Position[] createPath(Position end);
 
-
-//    public void capture() { };
-    // could do capture(Piece piece) which calls a method move(Piece piece) so
-    // there would be overloaded move methods. this covers pawn problem.
-    // but player should probably call capture()
 }

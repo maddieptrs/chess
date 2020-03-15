@@ -1,6 +1,6 @@
 package pieces;
 
-import game.Player;
+import game.Colour;
 import game.Position;
 
 /**
@@ -15,10 +15,10 @@ public class Bishop extends Piece {
     /**
      * Constructs a Bishop at the specified position for the specified player.
      * @param position position of the Bishop.
-     * @param player player the Bishop belongs to.
+     * @param colour colour of the Bishop.
      */
-    public Bishop(Position position, Player player) {
-        super(position, player);
+    public Bishop(Position position, Colour colour) {
+        super(position, colour);
     }
 
     /**
@@ -29,26 +29,44 @@ public class Bishop extends Piece {
         return type;
     }
 
-    /*
-    Helper method to determine if the path to the given position will be valid.
+    /**
+     * Determines if the path to the given position is allowed for the Bishop
+     * @param newPosition the new position.
+     * @return true if the path is valid, false otherwise.
      */
-    private boolean isPathValid(Position newPosition) {
+    public boolean isPathValid(Position newPosition) {
+        // Moves diagonally
         return Math.abs(getPosition().getY() - newPosition.getY())
                 == Math.abs(getPosition().getX() - newPosition.getX());
     }
 
     /**
-     * Moves the Bishop to the given position if the path to the position is a
-     * valid path. The Bishop can move diagonally for any number of squares.
-     * Otherwise, prints "Move not allowed."
-     * @param newPosition the new position.
-     * @require newPosition must be on the board.
+     * Creates an array of positions that the Bishop will cross as it moves.
+     * This method is only called if isPathValid(end) = true.
+     * We can treat this as the second step in determining if a move is allowed.
+     * If the Bishop must jump over another piece - that is, there is an existing
+     * piece in its path - then the move is not valid.
+     * @param end the Bishop's final position.
+     * @require numSquares > 0.
      */
-    public void move(Position newPosition) {
-        if (isPathValid(newPosition)) {
-            setPosition(newPosition);
-        } else {
-            System.out.println("Move not allowed.");
+    public Position[] createPath(Position end) {
+        int numSquares = Math.abs(end.getX() - getPosition().getX());
+        Position[] path = new Position[numSquares];
+        int newX = getPosition().getX();
+        int newY = getPosition().getY();
+        for (int i = 0; i < numSquares; i++) {
+            if (end.getX() - getPosition().getX() < 0) {
+                newX -= 1;
+            } else {
+                newX += 1;
+            }
+            if (end.getY() - getPosition().getY() < 0) {
+                newY -= 1;
+            } else {
+                newY += 1;
+            }
+            path[i] = new Position(newX, newY);
         }
+        return path;
     }
 }

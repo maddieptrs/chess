@@ -24,13 +24,12 @@ public class Player {
      * Creates a named player that uses either the white or black pieces.
      * If the player's colour is white, then it is their turn initially.
      */
-    Player(String name, Colour colour, List<Piece> pieces) {
+    Player(String name, Colour colour) {
         this.name = name;
         this.colour = colour;
         if (this.colour == Colour.WHITE) {
             yourTurn = true;
         }
-        this.pieces = pieces; // create the pieces in game
     }
 
     /**
@@ -99,7 +98,7 @@ public class Player {
     public void castle(Rook rook) {
 //        if (moves == 0 && rook.getMoves() == 0) {
 //
-//        }
+//        } do this in king??!
     }
 
     /**
@@ -115,8 +114,10 @@ public class Player {
         if (piece.isPathValid(position)) {
             piece.setPosition(position);
             piece.increaseMoves();
+        } else {
+            System.out.print("Move not allowed.");
         }
-    }
+    } //  do this in game??
 
 //    public void checkmate() { };
 
