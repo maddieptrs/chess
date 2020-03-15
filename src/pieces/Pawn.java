@@ -11,7 +11,6 @@ import game.Position;
 public class Pawn extends Piece {
 
     private Type type = Type.PAWN; // Piece type.
-    private int moves = 0; // Number of moves Pawn has made.
 
     /**
      * Constructs a Pawn at the specified position for the specified player.
@@ -19,7 +18,7 @@ public class Pawn extends Piece {
      * @param position position of the Pawn.
      * @param player   player the Pawn belongs to.
      */
-    Pawn(Position position, Player player) {
+    public Pawn(Position position, Player player) {
         super(position, player);
     }
 
@@ -32,24 +31,26 @@ public class Pawn extends Piece {
         return type;
     }
 
-    /*
-    Helper method to determine if the path to the given position will be valid.
+    /**
+     * Determines if the path to the given position is allowed for the type of
+     * the Piece.
+     * @param newPosition the new position.
+     * @return true if the path is valid, false otherwise.
      */
-    private boolean isPathValid(Position newPosition) {
+    public boolean isPathValid(Position newPosition) {
         int changeInX = Math.abs(getPosition().getX() - newPosition.getX());
         int changeInY = getPosition().getY() - newPosition.getY();
-        if (moves == 0) {
+        if (this.getMoves() == 0) {
             return changeInX == 0 && changeInY <= 2;
             // Pawn can move two spots forward on first move.
         }
-
         // changeInY must be positive
         return changeInX == 1 && changeInY == 1;
 
-        // how to fix this for capturing???
-        // have overloaded methods? e.g. isValidPath(Position position) and
-        // isValidPath(Piece piece) so we'd have move(Position position) and
-        // move(Piece piece)??
+        // capturing must be included in game class so we can access the
+        // chess board.
+
+        // move is made in PLayer.
     }
 
     /**
@@ -70,11 +71,4 @@ public class Pawn extends Piece {
         }
     }
 
-    /**
-     * Returns the number of times the Pawn has moved.
-     * @return the number of times the Pawn has moved.
-     */
-    public int getMoves() {
-        return moves;
-    }
 }

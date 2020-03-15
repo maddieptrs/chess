@@ -17,7 +17,7 @@ public class Bishop extends Piece {
      * @param position position of the Bishop.
      * @param player player the Bishop belongs to.
      */
-    Bishop(Position position, Player player) {
+    public Bishop(Position position, Player player) {
         super(position, player);
     }
 

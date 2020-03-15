@@ -17,7 +17,7 @@ public class Queen extends Piece {
      * @param position the position of the Queen.
      * @param player the player the Queen belongs to.
      */
-    Queen(Position position, Player player) {
+    public Queen(Position position, Player player) {
         super(position, player);
     }
 

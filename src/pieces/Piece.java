@@ -12,13 +12,14 @@ public abstract class Piece {
     private Position position; // the current position of the piece.
     private Player player; // the player to whom the piece belongs to.
     private boolean captured = false; // if the piece is captured
-    private String identifier; // a String used to identify the Piece instance.
+    private int moves = 0; // the number of moves the Piece has made.
+
 
     /**
      * Creates a game piece at the given position for the given player.
      * At construction, the pieces have not been captured.
      */
-    Piece(Position position, Player player) {
+    public Piece(Position position, Player player) {
         this.position = position;
         this.player = player;
     }
@@ -61,13 +62,27 @@ public abstract class Piece {
     public abstract Type getType();
 
     /**
-     * Moves the piece to the given position if the path to the position is a
-     * valid path.
-     * Otherwise, prints "Move not allowed."
-     * @param newPosition the new position.
-     * @require newPosition must be on the board.
+     * Returns the number of moves the piece has made.
+     * @return the number of moves the piece has made.
      */
-    public abstract void move(Position newPosition);
+    public int getMoves() {
+        return moves;
+    }
+
+    /**
+     * Increases the number of moves the piece has made.
+     */
+    public void increaseMoves() {
+        moves++;
+    }
+
+    /**
+     * Determines if the path to the given position is allowed for the type of
+     * the Piece.
+     * @param newPosition the new position.
+     * @return true if the path is valid, false otherwise.
+     */
+    public abstract boolean isPathValid(Position newPosition);
 
 
 

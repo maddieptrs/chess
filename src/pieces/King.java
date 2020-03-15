@@ -19,7 +19,7 @@ public class King extends Piece {
      * @param position position of the King.
      * @param player player the King belongs to.
      */
-    King(Position position, Player player) {
+    public King(Position position, Player player) {
         super(position, player);
     }
 
@@ -47,6 +47,8 @@ public class King extends Piece {
      */
     public void move(Position newPosition) {
         if (isPathValid(newPosition)) {
+            // also need to check there are no pieces in the way
+            // use method in Board
             setPosition(newPosition);
             moves++;
         } else {

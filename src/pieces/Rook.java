@@ -19,7 +19,7 @@ public class Rook extends Piece {
      * @param position position of the Rook.
      * @param player player the Rook belongs to.
      */
-    Rook(Position position, Player player) {
+    public Rook(Position position, Player player) {
         super(position, player);
     }
 

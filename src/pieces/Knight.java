@@ -19,7 +19,7 @@ public class Knight extends Piece {
      * @param position position of the Knight.
      * @param player player the Knight belongs to.
      */
-    Knight(Position position, Player player) {
+    public Knight(Position position, Player player) {
         super(position, player);
     }
 

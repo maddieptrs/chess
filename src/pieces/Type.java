@@ -10,8 +10,8 @@ package pieces;
  */
 public enum Type {
     PAWN('p', 1),
-    KNIGHT('k', 3),
-    BISHOP('b', 3),
+    KNIGHT('n', 3),
+    BISHOP('B', 3),
     ROOK('r', 5),
     KING('K'),
     QUEEN('Q', 9);
