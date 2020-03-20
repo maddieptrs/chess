@@ -1,6 +1,5 @@
 package pieces;
 
-
 import game.Colour;
 import game.Position;
 
@@ -49,33 +48,37 @@ public class Queen extends Piece {
      * If the Queen must jump over another piece - that is, there is an existing
      * piece in its path - then the move is not valid.
      * @param end the Queen's final position.
+     * @return an array of positions the Queen will cross.
      */
     public Position[] createPath(Position end) {
+        // FIX THIS
         int changeInX = getPosition().getX() - end.getX();
         int changeInY = getPosition().getY() - end.getY();
-        Position[] path = null;
+        int numSquares = (int)getPosition().distance(end);
+        Position[] path = new Position[numSquares];
         if (changeInX == 0) { // vertical move
-            path = new Position[Math.abs(changeInY)];
-            int direction = 1;
-            if (changeInY < 0) {
-                direction = -1;
-            }
-            for (int i = 0; i < Math.abs(changeInY); i++) {
+            int dir = changeInY < 0 ? -1 : 1;
+            for (int i = 0; i < numSquares; i++) {
                 path[i] = new Position(getPosition().getX(),
-                        getPosition().getY() + direction * (i + 1));
+                        getPosition().getY() + dir * (i + 1));
             }
         } else if (changeInY == 0) { // horizontal move
-            path = new Position[Math.abs(changeInX)];
-            int direction = 1;
-            if (changeInX < 0) {
-                direction = -1;
-            }
-            for (int i = 0; i < Math.abs(changeInX); i++) {
-                path[i] = new Position(getPosition().getX() +
-                        direction * (i + 1), getPosition().getY());
+            int dir = changeInX < 0 ? -1 : 1;
+            for (int i = 0; i < numSquares; i++) {
+                path[i] = new Position(getPosition().getX() + dir * (i + 1),
+                        getPosition().getY());
             }
         } else { // diagonal move
-            // copy bishop?? Make private helper method??
+            // Copied from Bishop
+            int newX = getPosition().getX();
+            int newY = getPosition().getY();
+            for (int i = 0; i < numSquares; i++) {
+                int dirX = end.getX() - getPosition().getX() < 0 ? -1 : 1;
+                int dirY = end.getY() - getPosition().getY() < 0 ? -1 : 1;
+                newX += dirX;
+                newY += dirY;
+                path[i] = new Position(newX, newY);
+            }
         }
         return path;
     }

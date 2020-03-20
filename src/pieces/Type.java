@@ -14,7 +14,8 @@ public enum Type {
     BISHOP('B', 3),
     ROOK('r', 5),
     KING('K'),
-    QUEEN('Q', 9);
+    QUEEN('Q', 9),
+    EMPTY('E');
 
     private char key; // key associated with the piece type.
     private int value; // value associated with the piece type.

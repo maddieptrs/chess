@@ -22,8 +22,8 @@ public class Game {
     public Game(String whiteName, String blackName) {
         board = new Board();
 
-        whitePlayer = new Player(whiteName, Colour.WHITE);
-        blackPlayer = new Player(blackName, Colour.BLACK);
+        whitePlayer = new Player(whiteName, Colour.WHITE, board);
+        blackPlayer = new Player(blackName, Colour.BLACK, board);
     }
 
     /**

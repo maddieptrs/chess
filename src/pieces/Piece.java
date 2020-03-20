@@ -1,7 +1,6 @@
 package pieces;
 
 import game.Colour;
-import game.Player;
 import game.Position;
 
 /**
@@ -57,10 +56,10 @@ public abstract class Piece {
     }
 
     /**
-     * Returns the type of the piece.
-     * @return the type of the piece.
+     * Returns the colour of the piece.
+     * @return the colour of the piece.
      */
-    public abstract Type getType();
+    public Colour getColour() { return colour; }
 
     /**
      * Returns the number of moves the piece has made.
@@ -78,6 +77,12 @@ public abstract class Piece {
     }
 
     /**
+     * Returns the type of the piece.
+     * @return the type of the piece.
+     */
+    public abstract Type getType();
+
+    /**
      * Determines if the path to the given position is allowed for the type of
      * the Piece.
      * @param newPosition the new position.
@@ -91,7 +96,9 @@ public abstract class Piece {
      * We can treat this as the second step in determining if a move is allowed.
      * If the Piece must jump over another piece - that is, there is an existing
      * piece in its path - then the move is not valid.
+     * This path does not include the end or start positions.
      * @param end the Piece's final position.
+     * @return an array of positions the Piece will cross.
      */
     public abstract Position[] createPath(Position end);
 

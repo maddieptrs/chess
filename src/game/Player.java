@@ -1,10 +1,10 @@
 package game;
 
+import pieces.King;
 import pieces.Pawn;
 import pieces.Piece;
 import pieces.Rook;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +16,7 @@ public class Player {
 
     private String name; // name of the player
     private Colour colour; // colour of the player's pieces
+    private Board board; // the board the player is using
     private boolean yourTurn = false; // if it is the player's turn
     private int score = 0; // the player's score
     private List<Piece> pieces;
@@ -24,8 +25,9 @@ public class Player {
      * Creates a named player that uses either the white or black pieces.
      * If the player's colour is white, then it is their turn initially.
      */
-    Player(String name, Colour colour) {
+    Player(String name, Colour colour, Board board) {
         this.name = name;
+        this.board = board;
         this.colour = colour;
         if (this.colour == Colour.WHITE) {
             yourTurn = true;
@@ -90,15 +92,31 @@ public class Player {
      * not yet moved in the game, and the King is not in check, and there are
      * no pieces between the King and Rook, then the King and Rook can swap
      * places.
-     * I DON'T THINK THIS IS QUITE CORRECT!!!
+     * @param king the king to be castled with.
      * @param rook the rook to be castled with.
-     *
-     *             has been copied from King
      */
-    public void castle(Rook rook) {
-//        if (moves == 0 && rook.getMoves() == 0) {
-//
-//        } do this in king??!
+    public void castle(King king, Rook rook) {
+        // should this be an overloaded method for move?
+        boolean castleAllowed = true;
+        if (king.getMoves() == 0 && rook.getMoves() == 0) {
+            Position[] path = king.castlePath(rook);
+            for (int i = 0; i < path.length - 1; i++) {
+                if (board.getEntry(path[i]) != 'E') {
+                    castleAllowed = false;
+                }
+            }
+        } else {
+            castleAllowed = false;
+        }
+
+        if (!castleAllowed) {
+            System.out.print("Castle not allowed."); // use an error??
+        } else {
+            Position rookPos = rook.getPosition();
+            Position kingPos = king.getPosition();
+            rook.setPosition(kingPos);
+            king.setPosition(rookPos);
+        }
     }
 
     /**
@@ -108,16 +126,21 @@ public class Player {
      * Assumes that there is no other pieces on the board. This is dealt with
      * in Game.
      * @param piece the piece to be moved.
-     * @param position the position the piece is to be moved to.
+     * @param end the position the piece is to be moved to.
      */
-    public void move(Piece piece, Position position) {
-        if (piece.isPathValid(position)) {
-            piece.setPosition(position);
+    public void move(Piece piece, Position end) {
+        if (piece.isPathValid(end)) {
+            // need to check path is clear
+            piece.setPosition(end);
             piece.increaseMoves();
         } else {
             System.out.print("Move not allowed.");
         }
-    } //  do this in game??
+    }
+
+//    public void move(King king, Rook rook) {
+//
+//    }
 
 //    public void checkmate() { };
 

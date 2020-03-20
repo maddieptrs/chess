@@ -1,6 +1,6 @@
 package pieces;
 
-import game.Player;
+import game.Colour;
 import game.Position;
 
 /**
@@ -12,15 +12,14 @@ import game.Position;
 public class Rook extends Piece {
 
     private Type type = Type.ROOK;
-    private int moves = 0;
 
     /**
      * Constructs a Rook at the specified position for the specified player.
      * @param position position of the Rook.
-     * @param player player the Rook belongs to.
+     * @param colour colour of the Rook.
      */
-    public Rook(Position position, Player player) {
-        super(position, player);
+    public Rook(Position position, Colour colour) {
+        super(position, colour);
     }
 
     /**
@@ -31,38 +30,42 @@ public class Rook extends Piece {
         return type;
     }
 
-    /*
-    Helper method to determine if the path to the given location will be valid.
+    /**
+     * Determines if the path to the given position is allowed for the Rook.
+     * @param newPosition the new position.
+     * @return true if the path is valid, false otherwise.
      */
-    private boolean isPathValid(Position newPosition) {
+    public boolean isPathValid(Position newPosition) {
         int changeInX = getPosition().getX() - newPosition.getX();
         int changeInY = getPosition().getY() - newPosition.getY();
         return changeInX == 0 || changeInY == 0; // Moves up, down, or sideways.
     }
 
     /**
-     * Moves the Rook to the given posiiton if the path to the position is a
-     * valid path. The Rook can move directly forwards, backwards, or sideways
-     * for any number of squares.
-     * Otherwise, prints "Move not allowed."
-     * @param newPosition the new position.
-     * @require newPosition must be on the board.
+     * Creates an array of positions that the Rook will cross as it moves.
+     * This method is only called if isPathValid(end) = true.
+     * We can treat this as the second step in determining if a move is allowed.
+     * If the Rook must jump over another piece - that is, there is an existing
+     * piece in its path - then the move is not valid.
+     * @param end the Rook's final position.
+     * @return an array of positions the Rook will cross.
      */
-    public void move(Position newPosition) {
-        if (isPathValid(newPosition)) {
-            setPosition(newPosition);
-            moves++;
-        } else {
-            System.out.println("Move not allowed.");
+    public Position[] createPath(Position end) {
+        int changeInX = getPosition().getX() - end.getX();
+        int changeInY = getPosition().getY() - end.getY();
+        int numSquares = (int)getPosition().distance(end);
+        Position[] path = new Position[numSquares];
+        for (int i = 0; i < numSquares; i++) {
+            if (changeInY == 0) { // horizontal movement
+                int dir = changeInX < 0 ? -1 : 1;
+                path[i] = new Position(getPosition().getX() + dir * (1 + i),
+                        getPosition().getY());
+            } else {
+                int dir = changeInY < 0 ? -1 : 1;
+                path[i] = new Position(getPosition().getX(),
+                        getPosition().getY() + dir * (1 + i));
+            }
         }
+        return path;
     }
-
-    /**
-     * Returns the number of times Rook has moved.
-     * @return the number of times Rook has moved.
-     */
-    public int getMoves() {
-        return moves;
-    }
-
 }

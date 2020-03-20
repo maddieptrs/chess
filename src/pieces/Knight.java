@@ -54,6 +54,7 @@ public class Knight extends Piece {
      * The Knight is allowed to "jump" over other pieces because of its unique
      * movement.
      * @param end the Knight's final position.
+     * @return an array of positions the Knight will cross.
      */
     public Position[] createPath(Position end) {
         // order of movement does not matter as it does not matter if the Knight

@@ -63,6 +63,7 @@ public class Pawn extends Piece {
      * If the Pawn must jump over another piece - that is, there is an existing
      * piece in its path - then the move is not valid.
      * @param end the Pawn's final position.
+     * @return an array of positions the Pawn will cross.
      * @require Pawn is moving forward.
      */
     public Position[] createPath(Position end) {
